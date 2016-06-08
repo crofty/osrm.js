@@ -35,14 +35,16 @@ function OSRM(arg) {
       throw new Error("Unsupported protocol: " + protocol);
   }
 
-  this._get = function(url, callback) {
+  this._get = function(urlString, callback) {
+    var parsedUrl = url.parse(urlString)
+    parsedUrl.withCredentials = false;
     if (protocol === "http:")
     {
-      return http.get(url, callback);
+      return http.get(parsedUrl, callback);
     }
     else if (protocol == "https:")
     {
-      return https.get(url, callback);
+      return https.get(parsedUrl, callback);
     }
     throw Error("No protocol handler found for " + protocol);
   }
